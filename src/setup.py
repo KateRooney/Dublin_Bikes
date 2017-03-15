@@ -9,6 +9,6 @@ setup(name="Bikes",
      license="none",
      packages=['src'],
      entry_points={
-        'console_scripts':['Bikes=src.src.main:main']
+        'console_scripts':['Bikes=src.main:main']
         },
       )
