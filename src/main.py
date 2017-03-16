@@ -36,7 +36,7 @@ class webcrawler:
     connection = engine.connect() 
 
     def create_table(self, connection):
-        result_create = connection.execute("CREATE TABLE IF NOT EXISTS DublinBikes(number int NOT NULL,name varchar(255),address varchar(255),position varchar(255),banking varchar(255),bonus varchar(255),status varchar(255),contract_name varchar(255),bike_stands int,available_bike_stands int,available_bikes int,last_update datetime, PRIMARY KEY (Number));") 
+        result_create = connection.execute("CREATE TABLE IF NOT EXISTS DublinBikes(number int NOT NULL,name varchar(255),address varchar(255),position varchar(255),banking varchar(255),bonus varchar(255),status varchar(255),contract_name varchar(255),bike_stands int,available_bike_stands int,available_bikes int,last_update datetime);") 
         
     def store_data(self, r, data, engine, connection):
         number = data[0]
