@@ -32,7 +32,6 @@ class webcrawler:
                                                            "contract": NAME})
         data = (json.loads(r.text))
         for row in data:
-            print(row)
             name = row['name']
             status = row['status']
             bike_stands = row['bike_stands']
