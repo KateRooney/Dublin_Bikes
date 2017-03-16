@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="Bikes",
-     version ="0.1",
+     version ="0.2",
      description="Dublin Bikes Project Team 13",
      url="",
      author="Kate Rooney",
