@@ -10,7 +10,7 @@ import argparse
 import time
 from sqlalchemy import create_engine
 import os
-import MySQLdb
+import pymysql
 
 APIKEY = 'a360b2a061d254a3a5891e4415511251899f6df1'
 NAME = "Dublin"
@@ -22,8 +22,8 @@ def main():
     parser.add_argument('--input', help='no inputs needed to run code')
     args=parser.parse_args()
     tester=webcrawler()
-    tester.create_table()
-    tester.store_data()
+    tester.create_table(tester.connection)
+    tester.store_data(tester.r,tester.data,tester.engine, tester.connection)
     
     
 class webcrawler:
@@ -32,25 +32,25 @@ class webcrawler:
     r = requests.get(STATIONS_URI, params={"apiKey": APIKEY,
                                                            "contract": NAME})
     data = (json.loads(r.text))
-    engine = create_engine("mysql+mysqldb://Project1Team13:Renault4@project1team13.cldi9otgx37k.us-west-2.rds.amazonaws.com:3306/Project1Team13")
+    engine = create_engine("mysql+pymysql://Project1Team13:Renault4@project1team13.cldi9otgx37k.us-west-2.rds.amazonaws.com:3306/Project1Team13")
     connection = engine.connect() 
 
     def create_table(self, connection):
-        result_create = connection.execute("CREATE TABLE IF NOT EXISTS DublinBikes(Number int,Name varchar(255),Address varchar(255),Position varchar(255),Banking varchar(255),Bonus varchar(255),Status varchar(255),ContractName varchar(255),BikeStands int,AvailableBikeStands int,AvailableBikes int,LastUpdate datetime, PRIMARY KEY ('number')"); 
+        result_create = connection.execute("CREATE TABLE IF NOT EXISTS DublinBikes(number int NOT NULL,name varchar(255),address varchar(255),position varchar(255),banking varchar(255),bonus varchar(255),status varchar(255),contract_name varchar(255),bike_stands int,available_bike_stands int,available_bikes int,last_update datetime, PRIMARY KEY (Number));") 
         
     def store_data(self, r, data, engine, connection):
-        number = data['number']
-        name = data['name']
-        address = data['address']
-        position = data['position']
-        banking = data['banking']
-        bonus = data['bonus']
-        status = data['status']
-        contract_name = data['contract_name']
-        bike_stands = data['bike_stands']
-        available_bike_stands = data['available_bike_stands']
-        available_bikes = data['available_bikes']
-        last_update = data['last_update']
+        number = data[0]
+        name = data[1]
+        address = data[2]
+        position = data[3]
+        banking = data[4]
+        bonus = data[5]
+        status = data[6]
+        contract_name = data[7]
+        bike_stands = data[8]
+        available_bike_stands = data[9]
+        available_bikes = data[10]
+        last_update = data[11]
         starttime=time.time()
         while True:
             try:
@@ -65,7 +65,6 @@ class webcrawler:
     
     def plain_text_backup(self, data):
     
-            #this will not work for EC2?
             with open(os.environ['HOME'] + "/data/{}") as f:
                 f.write(data)
                 f.close()
