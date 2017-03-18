@@ -11,6 +11,7 @@ import time
 from sqlalchemy import create_engine
 import os
 import pymysql
+from sqlalchemy.sql.functions import current_timestamp
 
 def main():
     
@@ -61,7 +62,7 @@ class webcrawler:
     
     def plain_text_backup(self, data):
     
-            with open(os.environ['HOME'] + "/data/{}") as f:
+            with open(os.environ['HOME'] + data) as f:
                 f.write(data)
                 f.close()
         
