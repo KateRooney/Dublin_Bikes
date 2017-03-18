@@ -1,0 +1,111 @@
+.headertext {font-size: 25pt;
+    font-weight: bolder;
+    color: white;
+    text-decoration:overline;
+    text-align: right;
+    margin-right: 80px;}
+
+table, th, td 
+    {border: 1px solid white;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 12pt;
+    outline: none;}
+
+th {background-color: blue;
+    color: white;}
+      
+table tr:nth-child(odd) 
+    {background-color: blue;}
+
+table tr:nth-child(even) 
+    {background-color: black;}
+
+.container {width: 100%;
+    text-align: left;
+    padding: 40px 40px 5px 20px;
+    border: 2px;
+    border-color: blue;
+    outline: none;}
+
+/* form example closely resembles W3 schools tutorial, but modified, and some parts have been removed to fit the style of this website*/
+
+input[type=number] 
+    {width: 70px;
+    height:40px;
+    color:white;
+    font-size:14pt;
+    background-color: transparent;
+    border-color: white;}
+
+#tx {display: none;
+    color: white;}
+
+#white {background-color: blue;
+    color: white;
+    padding: 15px 25px;
+    display: inline-block;
+    cursor: pointer;}
+
+.button {background-color: white;
+    color:black;
+    font-size: 8pt;
+    font-weight: 600;
+    border:6px;
+    border-color: blue;
+    width: 110px;
+    padding: 7px 15px;
+    cursor: pointer;
+    list-style-type: none;
+    display: inline-block;}
+
+.input {display: inline-block;}
+
+#new {display:none;}
+
+#test1 {display:none;
+    text-align: center;
+    margin-left: 160px;}
+
+#test3 {display:none;}
+
+#Pressure {display:none;}
+
+#Humidity {display:none;}
+
+#Wind_Speed {display:none;}
+
+.footer {font-size: 12pt;
+    color: white;
+    text-align: center;
+    font-weight: bolder;
+    position: relative;
+    margin-top: 1%;}  
+
+body {background-color: black;
+    background-size:100%;
+    font-family: "Lato";
+    color: white;
+    font-size: 18pt;}
+
+.clear {clear:both;}
+       
+.article
+    {display: inline-block;
+    list-style-type: none;
+    background-color: transparent;
+    text-align: left;
+    width: 50%;}
+    
+.articleright {display: inline-block;
+    position:fixed;
+    text-align: right;
+    margin-left: 0%;
+    width:65%}
+
+.articleright2 {display: inline-block;
+    position:absolute;
+    margin-top:380px;
+    text-align: right;
+    margin-left: 0%;
+    width:65%}
