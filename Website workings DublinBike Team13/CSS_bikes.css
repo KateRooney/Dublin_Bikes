@@ -6,20 +6,15 @@
     margin-right: 80px;}
 
 table, th, td 
-    {border: 1px solid white;
+    {border: 1px solid black;
     border-collapse: collapse;
     padding: 5px;
-    font-size: 12pt;
+    font-size: 8pt;
+    color: white;
     outline: none;}
 
-th {background-color: blue;
-    color: white;}
-      
-table tr:nth-child(odd) 
-    {background-color: blue;}
-
-table tr:nth-child(even) 
-    {background-color: black;}
+th {color: white;
+    font-size: 8pt;}  
 
 .container {width: 100%;
     text-align: left;
@@ -90,22 +85,17 @@ body {background-color: black;
 
 .clear {clear:both;}
        
-.article
+#article
     {display: inline-block;
-    list-style-type: none;
-    background-color: transparent;
     text-align: left;
-    width: 50%;}
+    position: fixed;
+    margin-left: 0%;
+    width: 90%;}
     
-.articleright {display: inline-block;
-    position:fixed;
-    text-align: right;
-    margin-left: 0%;
-    width:65%}
+#articleright {
+    text-align: left;
+    margin-left: 70%;
+    margin-right:10%;
+    position: fixed;
+    display:none;}
 
-.articleright2 {display: inline-block;
-    position:absolute;
-    margin-top:380px;
-    text-align: right;
-    margin-left: 0%;
-    width:65%}
