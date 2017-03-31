@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>   
 <head>
+<!--example of url_for for stylesheets here: https://www.youtube.com/watch?v=8aTgOs_cv2g&list=PLQVvvaa0QuDc_owjTbIY4rbgXOFkUYOUB&index=3-->
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="CSS_bikes.css">
-    <link rel="stylesheet" type="text/css"
-      href="https://fonts.googleapis.com/css?family=Lato"/>
-      <title>Dublin Bikes Team13</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{url_for('static',
+    filename='CSS_bikes.css') }}" rel="stylesheet" >
+     <link rel="icon" href="{{url_for('static',
+    filename='icon.ico') }}" rel="stylesheet" >
+     <title>Dublin Bikes Team13</title>
     </head>
      <body>
          
+            
          <div id="container">
          <div id="article">
       <div id="map" style="width:800px;height:900px;"> </div>
@@ -25,7 +29,6 @@
     
 var xmlhttp = new XMLHttpRequest();
 var url = "http://api.openweathermap.org/data/2.5/forecast?id=7778677&units=metric&APPID=7dc97eec8449218feec4838d26264d0b";
-
 xmlhttp.onreadystatechange = function() {
 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
 displayJSON(xmlhttp.responseText);}
@@ -46,7 +49,6 @@ var iconshow = ("<img src='http://openweathermap.org/img/w/" + icon + ".png'>");
 output += "<tr><td>" +date.toDateString()+" "+iconshow+temp +"°C"+"</td></tr>";}
 output +="</table>";
 document.getElementById("articleright").innerHTML= output;}
-
     
 var locations=[
 [53.349562, -6.278198, 'SMITHFIELD NORTH'],
@@ -151,7 +153,6 @@ var locations=[
 [53.347802, -6.292432, 'HEUSTON BRIDGE (NORTH)'],
 [53.3488, -6.281637, 'BLACKHALL PLACE']
 ];
-
  var markers = [];
              
 function initMap() {
@@ -162,39 +163,32 @@ setMarkers(map);
     
 function setMarkers(map) {
   for (var i = 0; i < locations.length; i++) {
-
     var location = locations[i];
     var locationInfowindow = new google.maps.InfoWindow({
       content: '<div id=php_placeholder></div>',
     });
-
     var marker = new google.maps.Marker({
       position: {lat: location[0], lng: location[1]},
       map: map,
       title: location[2],
       infowindow: locationInfowindow
     });
-
     markers.push(marker);
       
 /*<!--https://www.w3schools.com/jsref/jsref_push.asp-->*/
-
     google.maps.event.addListener(marker, 'click', function() {
       hideAllInfoWindows(map);
       this.infowindow.open(map, this);  
     });
       
       marker.addListener('click', markers_weather_click())
-
   }
 }
-
 function hideAllInfoWindows(map) {
    markers.forEach(function(marker) {
      marker.infowindow.close(map, marker);
   }); 
 }
-
  function markers_weather_click() {
 document.getElementById("articleright").style.display="inline-block";}
             
