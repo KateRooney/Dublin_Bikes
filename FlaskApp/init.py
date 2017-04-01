@@ -23,9 +23,14 @@ def get_db():
         engine = g.engine = connect_to_database()                                                                                                                                                                                                                    
     return engine                                                                                                                                                                                                                                                      
 
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 @app.route("/available/<int:station_id>")
-def get_stations(station_id):
+def get_station_data(station_id):
     engine = get_db()
     data = []
     rows = engine.execute("SELECT available_bikes from stations where number = {};".format(station_id))
@@ -56,6 +61,17 @@ def station(station_id):
     res = [dict(row.items()) for row in rows]  # use this formula to turn the rows into a list of dicts
     return jsonify(data=res)  # jsonify turns the objects into the correct respose
 
+@app.route("/stations") 
+def get_stations():
+    sql = """
+    select * from StationData;
+    """
+    engine = get_db()
+    stations = []
+    allrows = engine.execute(sql).fetchall()
+    for row in allrows:
+        stations.append(dict(row)) 
+    return jsonify(stations=stations)
 
 
 @app.route("/dbinfo")
@@ -76,9 +92,9 @@ if __name__ == "__main__":
     """
     The URLs you should visit after starting the app:
     http://1270.0.0.1/ is working - removed
-    http://1270.0.0.1/hello is working - removed
+    http://1270.0.0.1/hello is working - removed for now
     http://1270.0.0.1/user - was not working so updated to render tempates and returned the index page that way
     http://1270.0.0.1/dbinfo - - need to change to the pysql done -working
-    http://1270.0.0.1/station/42 - need to change to the pysql done - need to include join
+    http://1270.0.0.1/station/42 - need to change to the pysql done - need to include join -done -working
     """
     app.run(debug=True)
