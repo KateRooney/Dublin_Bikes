@@ -14,8 +14,9 @@ engine = create_engine("mysql+pymysql://Project1Team13:Renault4@project1team13.c
 connection = engine.connect()
 
 for row in data:
+    number= row['number']
     name = row['name']
     lat = row['position']['lat']
     lon = row['position']['lng']
-    #connection.execute('INSERT INTO StationData(name, lat, lon) VALUES (%s,%s, %s)', (name, lat, lon))  
-    print([lat, lon, name])
+    connection.execute('INSERT INTO StationData(number, name, lat, lon) VALUES (%s, %s,%s, %s)', (number, name, lat, lon))  
+    print([number, lat, lon, name])
