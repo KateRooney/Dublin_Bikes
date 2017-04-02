@@ -1,29 +1,91 @@
 <!DOCTYPE html>
 <html>   
 <head>
-<!--example of url_for for stylesheets here: https://www.youtube.com/watch?v=8aTgOs_cv2g&list=PLQVvvaa0QuDc_owjTbIY4rbgXOFkUYOUB&index=3-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{url_for('static',
-    filename='CSS_bikes.css') }}" rel="stylesheet" >
-     <link rel="icon" href="{{url_for('static',
-    filename='icon.ico') }}" rel="stylesheet" >
-     <title>Dublin Bikes Team13</title>
-    </head>
-     <body>
+
+<title>Dublin Bikes Team13</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+  body {
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      color: deepskyblue;
+  }
+#map-container { height: 300px }
+    
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}  
+         <style>
+.bg-1 { 
+    background-color: #1abc9c; /* Green */
+    color: #ffffff;
+}
+.bg-2 { 
+    background-color: deepskyblue; 
+    color: #ffffff;
+}
+.bg-3 { 
+    background-color: #ffffff; /* White */
+    color: #555555;
+}
+      .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+</style>
+         <style>
+.bg-4 { 
+    background-color: #2f2f2f;
+    color: #ffffff;
+}
+             
+</style>
+
+        
+ </head>
+   
+    <body>
          
-            
-         <div id="container">
-         <div id="article">
-      <div id="map" style="width:800px;height:900px;"> </div>
+         <div class="container-fluid bg-1 text-center">
+         <h1> Dublin Bikes Team 13</h1>
              </div>
-         <div id="articleright"></div>
-             <div id="php_placeholder"></div>
-          </div>
+         
+         <div class="container-fluid bg-2 text-center">
+          <div class="btn-group">  
+<div class="dropdown">
+    <button class="btn btn-info dropdown-toggle btn-lg" type="button" data-toggle="dropdown">Bike Availability
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li class="dropdown-header">Average availability</li>
+      <li><a href="#">Peak</a></li>
+      <li><a href="#">Off-peak</a></li>
+      <li class="divider"></li>
+      <li class="dropdown-header">Current availability</li>
+      <li><a href="#">Now</a></li>
+    </ul>
 
-<!--sourced example for mulitple markers from here: https://developers.google.com/maps/documentation/javascript/examples/icon-complex-->
-        <!-- https://hashnode.com/post/google-maps-api-onclick-on-marker-close-infowindow-of-other-markers-ciou68dw708x33353les71nyi-->
-
+    <button type="button" class="btn btn-primary btn-lg" onclick="showWeather()">Weather forecast</button>
+  </div>
+        </div>
+        </div>
+<div class="container-fluid bg-3 text-center">
+    
+         <div id="map-container" class="col-md-6"></div>
+            
+ <div class="row">
+    <div class="col-sm-4">
+        <div id="weather"></div>
+    </div>
+    </div>
+        </div>
+    </body>    
+         
+<footer class="container-fluid bg-4 text-center">
+  <p>Copyright Dublin Bikes Team 13 2017</p> 
+</footer>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEmlHrsfVqNd08B7msqSlM-KxogOEjo8g&callback=initMap"></script>
          
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -51,11 +113,21 @@ var icon = obj.list[i].weather[0].icon;
 var iconshow = ("<img src='http://openweathermap.org/img/w/" + icon + ".png'>");
 output += "<tr><td>" +date.toDateString()+" "+iconshow+temp +"°C"+"</td></tr>";}
 output +="</table>";
-document.getElementById("articleright").innerHTML= output;}
+document.getElementById('weather').innerHTML= output;}
+    
+function showWeather() {
+    var x = document.getElementById('weather');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+    
        
 
 function initMap() {
-var map = new google.maps.Map(document.getElementById('map'), {zoom: 14,center: {lat: 53.3498, lng: -6.2603}
+var map = new google.maps.Map(document.getElementById('map-container'), {zoom: 14,center: {lat: 53.3498, lng: -6.2603}
 });
 
     $.getJSON("http://localhost:5000/stations", null, function(stations) {
@@ -76,6 +148,6 @@ var map = new google.maps.Map(document.getElementById('map'), {zoom: 14,center: 
             
  </script>
                       
-    </body>
+ 
         
 </html>
