@@ -67,10 +67,8 @@ def get_stations():
     select * from StationData;
     """
     engine = get_db()
-    stations = []
     allrows = engine.execute(sql).fetchall()
-    for row in allrows:
-        stations.append(dict(row)) 
+    stations = [dict(row.items()) for row in allrows]
     return jsonify(stations=stations)
 
 
