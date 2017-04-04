@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+
+
 <style>
   body {
       font: 20px Montserrat, sans-serif;
@@ -48,7 +51,14 @@
  </head>
    
     <body>
-         
+        
+     
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="/build/heatmap.js"></script>
+    <script src="/plugins/gmaps-heatmap.js"></script>
+        
+        
          <div class="container-fluid bg-1 text-center">
          <h1> Dublin Bikes Team 13</h1>
              </div>
@@ -60,11 +70,11 @@
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li class="dropdown-header">Average availability</li>
-      <li><a href="#">Peak</a></li>
-      <li><a href="#">Off-peak</a></li>
+      <li><a href="peak">Peak</a></li>
+      <li><a href="off-peak">Off-peak</a></li>
       <li class="divider"></li>
       <li class="dropdown-header">Current availability</li>
-      <li><a href="#">Now</a></li>
+      <li><a href="now">Now</a></li>
     </ul>
 
     <button type="button" class="btn btn-primary btn-lg" onclick="showWeather()">Weather forecast</button>
@@ -86,11 +96,13 @@
 <footer class="container-fluid bg-4 text-center">
   <p>Copyright Dublin Bikes Team 13 2017</p> 
 </footer>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEmlHrsfVqNd08B7msqSlM-KxogOEjo8g&callback=initMap"></script>
-         
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-         
-<script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEmlHrsfVqNd08B7msqSlM-KxogOEjo8g&callback=&libraries=visualization&callback=initMap"></script>    
+
+ 
+
+    
+    <script>
 
 var xmlhttp = new XMLHttpRequest();
 var url = "http://api.openweathermap.org/data/2.5/forecast?id=7778677&units=metric&APPID=7dc97eec8449218feec4838d26264d0b";
@@ -123,14 +135,14 @@ function showWeather() {
         x.style.display = 'none';
     }
 }
-    
-       
+
+ 
 
 function initMap() {
 var map = new google.maps.Map(document.getElementById('map-container'), {zoom: 14,center: {lat: 53.3498, lng: -6.2603}
 });
 
-    $.getJSON("http://localhost:5000/stations", null, function(stations) {
+  $.getJSON("http://localhost:5000/stations", null, function(stations) {
             var stations = stations.stations;
         console.log('stations', stations);
   for (var i = 0; i < stations.length; i++) {
@@ -143,9 +155,38 @@ var map = new google.maps.Map(document.getElementById('map-container'), {zoom: 1
       title: station.name,
     });
     };
-        });}
+        });
+
+         var heatmap = $.getJSON("http://localhost:5000/live", null,function(live_avail) {
+             var heatmapData = [];
+             var live_avail = live_avail.live_avail;
+             for (var i = 0; i<live_avail.length; i++) {
+          var latLng = new google.maps.LatLng(live_avail[i].lat, live_avail[i].lon);
+             
+      var magnitude = parseInt(live_avail[i].available_bikes);
+      var weightedLoc = {
+        location: latLng,
+        weight: magnitude
+      };
                  
-            
+       
+      heatmapData.push(weightedLoc);
+    }
+         
+            var heatmap = new google.maps.visualization.HeatmapLayer({
+                   data: heatmapData,
+                  map: map 
+              });
+                              
+          
+             heatmap.set('radius', 40);
+             heatmap.set('opacity', 0.2);
+             heatmap.setMap(map);
+                                 
+                                 });
+}
+                 
+
  </script>
                       
  

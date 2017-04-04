@@ -47,12 +47,6 @@ def main():
 
 @app.route('/station/<int:station_id>')
 def station(station_id):
-    # show the station with the given id, the id is an integer
-
-    # this line would just return a simple string echoing the station_id
-    # return 'Retrieving info for Station: {}'.format(station_id)
-
-    # select the station info from the db
     sql = """
     select * from StationData where number = {}
     """.format(station_id)
@@ -71,6 +65,17 @@ def get_stations():
     stations = [dict(row.items()) for row in allrows]
     return jsonify(stations=stations)
 
+@app.route("/live") 
+def get_live_avail():
+    sql = """
+    SELECT DublinBikes.available_bikes, DublinBikes.number, StationData.*
+    FROM DublinBikes
+    INNER JOIN StationData ON DublinBikes.number=StationData.number;
+    """
+    engine = get_db()
+    avilrows = engine.execute(sql).fetchall()
+    live_avail = [dict(row.items()) for row in avilrows]
+    return jsonify(live_avail=live_avail)
 
 @app.route("/dbinfo")
 def get_dbinfo():
