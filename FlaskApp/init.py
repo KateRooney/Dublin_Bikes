@@ -3,6 +3,7 @@ from flask import Flask, g, jsonify, render_template
 from sqlalchemy import create_engine
 import config
 
+
 app = Flask(__name__)
 
 def connect_to_database():
@@ -39,11 +40,9 @@ def get_station_data(station_id):
 
     return json.dumps(available=data)
 
-
 @app.route('/')
 def main():
     return render_template('Index.html')
-
 
 @app.route('/station/<int:station_id>')
 def station(station_id):
@@ -68,7 +67,7 @@ def get_stations():
 @app.route("/live") 
 def get_live_avail():
     sql = """
-    SELECT DublinBikes.available_bikes, DublinBikes.number, StationData.*
+    SELECT DublinBikes.available_bikes, StationData.*
     FROM DublinBikes
     INNER JOIN StationData ON DublinBikes.number=StationData.number;
     """
@@ -76,6 +75,36 @@ def get_live_avail():
     avilrows = engine.execute(sql).fetchall()
     live_avail = [dict(row.items()) for row in avilrows]
     return jsonify(live_avail=live_avail)
+
+@app.route("/peak") 
+def get_peak():
+    sql = """ 
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)), StationData.*
+    FROM DublinBikes
+    INNER JOIN StationData ON DublinBikes.number=StationData.number
+    WHERE WEEKDAY(Timestamp)<5 AND
+    HOUR(Timestamp) = 8 OR HOUR(Timestamp) = 17
+    GROUP BY DublinBikes.number;
+    """
+    engine = get_db()
+    peak_rows = engine.execute(sql).fetchall()
+    peak = [dict(row.items()) for row in peak_rows]
+    return jsonify(peak=peak)
+
+@app.route("/off_peak") 
+def get_off_peak():
+    sql = """ 
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)), StationData.*
+    FROM DublinBikes
+    INNER JOIN StationData ON DublinBikes.number=StationData.number
+    WHERE WEEKDAY(Timestamp)>=5 AND
+    HOUR(Timestamp) <> 8 OR HOUR(Timestamp) <> 17
+    GROUP BY DublinBikes.number;
+    """
+    engine = get_db()
+    off_peak_rows = engine.execute(sql).fetchall()
+    off_peak = [dict(row.items()) for row in off_peak_rows]
+    return jsonify(off_peak=off_peak)
 
 @app.route("/dbinfo")
 def get_dbinfo():
