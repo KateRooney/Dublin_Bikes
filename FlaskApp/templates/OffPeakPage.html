@@ -75,7 +75,7 @@
       <li><a href="OffPeakPage">Off-peak</a></li>
       <li class="divider"></li>
       <li class="dropdown-header">Current availability</li>
-      <li><a href=''>Now</a></li>
+      <li><a href='main'>Now</a></li>
         </form>
     </ul>
     
@@ -143,13 +143,13 @@ var map = new google.maps.Map(document.getElementById('map-container'), {zoom: 1
  var marker;
   
     
-         var heatmap = $.getJSON("http://localhost:5000/live", null,function(live_avail) {
+         var heatmap = $.getJSON("http://localhost:5000/off_peak", null,function(off_peak_avail) {
              var heatmapData = [];
-             var live_avail = live_avail.live_avail;
-             for (var i = 0; i<live_avail.length; i++) {
-          var latLng = new google.maps.LatLng(live_avail[i].lat, live_avail[i].lon);
+             var off_peak_avail = off_peak_avail.off_peak_avail;
+             for (var i = 0; i<off_peak_avail.length; i++) {
+          var latLng = new google.maps.LatLng(off_peak_avail[i].lat, off_peak_avail[i].lon);
        var weight;      
-      var magnitude = parseInt(live_avail[i].available_bikes);
+      var magnitude = parseInt(off_peak_avail[i].available_bikes);
          switch(magnitude){
           case magnitude=0:
           weight=0;

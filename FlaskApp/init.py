@@ -44,10 +44,19 @@ def get_station_data(station_id):
 def main():
     return render_template('Index.html')
 
-@app.route('/station/<int:station_id>')
+@app.route('/main')
+def main_back():
+    return render_template('Index.html')
+
+@app.route('/one_station/<int:station_id>')
 def station(station_id):
     sql = """
-    select * from StationData where number = {}
+    SELECT DublinBikes.available_bikes, StationData.*
+    FROM DublinBikes
+    INNER JOIN StationData ON DublinBikes.number=StationData.number
+    WHERE DublinBikes.number = {}
+    ORDER BY DublinBikes.number 
+    DESC LIMIT 1;
     """.format(station_id)
     engine = get_db() 
     rows = engine.execute(sql).fetchall()  # we use fetchall(), but probably there is only one station
@@ -88,8 +97,16 @@ def get_peak():
     """
     engine = get_db()
     peak_rows = engine.execute(sql).fetchall()
-    peak = [dict(row.items()) for row in peak_rows]
-    return jsonify(peak=peak)
+    peak_avail = [dict(row.items()) for row in peak_rows]
+    return jsonify(peak_avail=peak_avail)
+
+@app.route("/PeakPage") 
+def see_peak():
+    return render_template('PeakPage.html')
+
+@app.route("/OffPeakPage") 
+def see_off_peak():
+    return render_template('OffPeakPage.html')
 
 @app.route("/off_peak") 
 def get_off_peak():
@@ -103,8 +120,8 @@ def get_off_peak():
     """
     engine = get_db()
     off_peak_rows = engine.execute(sql).fetchall()
-    off_peak = [dict(row.items()) for row in off_peak_rows]
-    return jsonify(off_peak=off_peak)
+    off_peak_avail = [dict(row.items()) for row in off_peak_rows]
+    return jsonify(off_peak_avail=off_peak_avail)
 
 @app.route("/dbinfo")
 def get_dbinfo():
