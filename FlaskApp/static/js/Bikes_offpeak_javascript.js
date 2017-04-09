@@ -48,11 +48,11 @@ function initMap() {
                               console.log('weather', output);
                               };
                 
-            		var bikes = station.available_bikes;
+            		var bikes = station.off_peak_bikes_available;
             		var stands =station.available_bike_stands;
             		google.maps.event.addListener(marker, 'click', (function (marker, j) 
             		{return function (){
-            			contentString = station.name+" has " +bikes+" bikes and "+stands+" free bike stands available now "+output;
+            			contentString = station.name+" has " +bikes+" bikes and "+stands+" free bike stands available on average during off_peak hours "+output;
             	        infoWindow = new google.maps.InfoWindow({content: contentString
             	            			});
 
@@ -75,7 +75,7 @@ function initMap() {
              for (var i = 0; i<off_peak.length; i++) {
             	 var latLng = new google.maps.LatLng(off_peak[i].lat, off_peak[i].lon),
             	 weight;      
-            	 	var magnitude = parseInt(off_peak[i].available_bikes);
+            	 	var magnitude = parseInt(off_peak[i].off_peak_bikes_available);
 				         switch(magnitude){
 					         case magnitude=0:
 						         weight=100;
