@@ -33,6 +33,18 @@ def close_connection(exception):
 def main():
     return render_template('Index.html')
 
+@app.route('/main')
+def main_return():
+    return render_template('Index.html')
+
+@app.route('/PeakPage')
+def peak_page():
+    return render_template('PeakPage.html')
+
+@app.route('/OffPeakPage')
+def off_peak_page():
+    return render_template('OffPeakPage.html')
+
 @app.route("/stations") 
 def get_stations():
     sql = """
@@ -54,7 +66,7 @@ def get_stations():
 @app.route("/peak") 
 def get_peak():
     sql = """ 
-    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)), StationData.*
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)),available_bike_stands, StationData.*
     FROM DublinBikes
     INNER JOIN StationData ON DublinBikes.number=StationData.number
     WHERE WEEKDAY(Timestamp)<5 AND
@@ -63,13 +75,13 @@ def get_peak():
     """
     engine = get_db()
     peak_rows = engine.execute(sql).fetchall()
-    peak_avail = [dict(row.items()) for row in peak_rows]
-    return jsonify(peak_avail=peak_avail)
+    peak = [dict(row.items()) for row in peak_rows]
+    return jsonify(peak=peak)
 
 @app.route("/off_peak") 
 def get_off_peak():
     sql = """ 
-    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)), StationData.*
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)),available_bike_stands, StationData.*
     FROM DublinBikes
     INNER JOIN StationData ON DublinBikes.number=StationData.number
     WHERE WEEKDAY(Timestamp)>=5 AND
@@ -78,8 +90,8 @@ def get_off_peak():
     """
     engine = get_db()
     off_peak_rows = engine.execute(sql).fetchall()
-    off_peak_avail = [dict(row.items()) for row in off_peak_rows]
-    return jsonify(off_peak_avail=off_peak_avail)
+    off_peak = [dict(row.items()) for row in off_peak_rows]
+    return jsonify(off_peak=off_peak)
 
 if __name__ == "__main__":
     

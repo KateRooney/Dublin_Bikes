@@ -7,20 +7,20 @@ function initMap() {
         		{lat: 53.3498, lng: -6.2603}
         }); 
         var markers,infoWindows,infoWindow,marker, contentString,output,bikes,station_number,
-        list,temp,icon,icon_show,stations;
+        list,temp,icon,icon_show,peak;
                          
-     $.getJSON("http://localhost:5000/stations", null, function (stations)
+     $.getJSON("http://localhost:5000/peak", null, function (peak)
                          {
-            stations = stations.stations;
-            console.log('finding stations', stations);
-            for (j=0; j<stations.length; j++) {
+            peak = peak.peak;
+            console.log('finding peak', peak);
+            for (j=0; j<peak.length; j++) {
                 createMarker(j);
             }
             
              function createMarker(j) {
-            	var station = stations[j],
+            	var station = peak[j],
             	station_number = station.number;
-            	console.log('stations',stations);
+            	console.log('peak',peak);
             	var marker = new google.maps.Marker({ 
             		position: {
 		                lat: station.lat,
@@ -63,19 +63,19 @@ function initMap() {
                		(marker, j))   
                   	});           	  
                         
-	             //closes the for loop on the stations 
+	             //closes the for loop on the peak 
             
           };
- 		//closes the function to find the stations JSON input
+ 		//closes the function to find the peak JSON input
  
 })  
-         var heatmap = $.getJSON("http://localhost:5000/stations", null,function(stations) {
+         var heatmap = $.getJSON("http://localhost:5000/peak", null,function(peak) {
              var heatmapData = [];
-             var stations = stations.stations;
-             for (var i = 0; i<stations.length; i++) {
-            	 var latLng = new google.maps.LatLng(stations[i].lat, stations[i].lon),
+             var peak = peak.peak;
+             for (var i = 0; i<peak.length; i++) {
+            	 var latLng = new google.maps.LatLng(peak[i].lat, peak[i].lon),
             	 weight;      
-            	 	var magnitude = parseInt(stations[i].available_bikes);
+            	 	var magnitude = parseInt(peak[i].available_bikes);
 				         switch(magnitude){
 					         case magnitude=0:
 						         weight=100;

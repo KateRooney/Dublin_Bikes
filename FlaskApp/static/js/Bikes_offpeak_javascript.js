@@ -7,20 +7,20 @@ function initMap() {
         		{lat: 53.3498, lng: -6.2603}
         }); 
         var markers,infoWindows,infoWindow,marker, contentString,output,bikes,station_number,
-        list,temp,icon,icon_show,stations;
+        list,temp,icon,icon_show,off_peak;
                          
-     $.getJSON("http://localhost:5000/stations", null, function (stations)
+     $.getJSON("http://localhost:5000/off_peak", null, function (off_peak)
                          {
-            stations = stations.stations;
-            console.log('finding stations', stations);
-            for (j=0; j<stations.length; j++) {
+            off_peak = off_peak.off_peak;
+            console.log('finding off_peak', off_peak);
+            for (j=0; j<off_peak.length; j++) {
                 createMarker(j);
             }
             
              function createMarker(j) {
-            	var station = stations[j],
+            	var station = off_peak[j],
             	station_number = station.number;
-            	console.log('stations',stations);
+            	console.log('off_peak',off_peak);
             	var marker = new google.maps.Marker({ 
             		position: {
 		                lat: station.lat,
@@ -63,19 +63,19 @@ function initMap() {
                		(marker, j))   
                   	});           	  
                         
-	             //closes the for loop on the stations 
+	             //closes the for loop on the off_peak 
             
           };
- 		//closes the function to find the stations JSON input
+ 		//closes the function to find the off_peak JSON input
  
 })  
-         var heatmap = $.getJSON("http://localhost:5000/stations", null,function(stations) {
+         var heatmap = $.getJSON("http://localhost:5000/off_peak", null,function(off_peak) {
              var heatmapData = [];
-             var stations = stations.stations;
-             for (var i = 0; i<stations.length; i++) {
-            	 var latLng = new google.maps.LatLng(stations[i].lat, stations[i].lon),
+             var off_peak = off_peak.off_peak;
+             for (var i = 0; i<off_peak.length; i++) {
+            	 var latLng = new google.maps.LatLng(off_peak[i].lat, off_peak[i].lon),
             	 weight;      
-            	 	var magnitude = parseInt(stations[i].available_bikes);
+            	 	var magnitude = parseInt(off_peak[i].available_bikes);
 				         switch(magnitude){
 					         case magnitude=0:
 						         weight=100;
