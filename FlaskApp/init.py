@@ -66,7 +66,7 @@ def get_stations():
 @app.route("/peak") 
 def get_peak():
     sql = """ 
-    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS peak_bikes_available, available_bike_stands, StationData.*
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS peak_bike_stands, StationData.*
     FROM DublinBikes
     INNER JOIN StationData ON DublinBikes.number=StationData.number
     WHERE WEEKDAY(Timestamp)<5 AND
@@ -81,7 +81,7 @@ def get_peak():
 @app.route("/off_peak") 
 def get_off_peak():
     sql = """ 
-    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS off_peak_bikes_available,available_bike_stands, StationData.*
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS off_peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS off_peak_bike_stands, StationData.*
     FROM DublinBikes
     INNER JOIN StationData ON DublinBikes.number=StationData.number
     WHERE WEEKDAY(Timestamp)>=5 AND

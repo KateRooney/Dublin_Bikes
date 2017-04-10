@@ -49,7 +49,7 @@ function initMap() {
                               };
                 
             		var bikes = station.peak_bikes_available;
-            		var stands =station.available_bike_stands;
+            		var stands =station.peak_bike_stands;
             		google.maps.event.addListener(marker, 'click', (function (marker, j) 
             		{return function (){
             			contentString = station.name+" has " +bikes+" bikes and "+stands+" free bike stands available on average during peak hours  "+output;
