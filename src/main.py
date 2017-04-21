@@ -36,7 +36,8 @@ class webcrawler:
     
                     
         starttime=time.time()
-        engine = create_engine("mysql+pymysql://Project1Team13:Renault4@project1team13.cldi9otgx37k.us-west-2.rds.amazonaws.com:3306/Project1Team13")
+        #engine = create_engine("mysql+pymysql://Project1Team13:Renault4@project1team13.cldi9otgx37k.us-west-2.rds.amazonaws.com:3306/Project1Team13")
+        engine = create_engine("mysql+pymysql://Project3:Project3@project3.ckjtcpr4fsnl.us-west-2.rds.amazonaws.com:3306/Bikes")
         connection = engine.connect()
        
         while starttime<1489680980800:

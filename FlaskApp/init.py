@@ -1,7 +1,11 @@
 import simplejson as json
 from flask import Flask, g, jsonify, render_template, url_for
 from sqlalchemy import create_engine
+from sqlalchemy import Table
 import config
+import pandas as pd
+import requests
+
 
 app = Flask(__name__)
 
@@ -63,6 +67,7 @@ def get_stations():
     stations = [dict(row.items()) for row in avilrows]
     return jsonify(stations=stations)
 
+
 @app.route("/peak") 
 def get_peak():
     sql = """ 
@@ -77,11 +82,13 @@ def get_peak():
     peak_rows = engine.execute(sql).fetchall()
     peak = [dict(row.items()) for row in peak_rows]
     return jsonify(peak=peak)
+    
+    
 
 @app.route("/off_peak") 
 def get_off_peak():
     sql = """ 
-    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS off_peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS off_peak_bike_stands, StationData.*
+    SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS off_peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS off_peak_bike_stands, StationData.number, StationData.name
     FROM DublinBikes
     INNER JOIN StationData ON DublinBikes.number=StationData.number
     WHERE WEEKDAY(Timestamp)>=5 AND
@@ -91,8 +98,10 @@ def get_off_peak():
     engine = get_db()
     off_peak_rows = engine.execute(sql).fetchall()
     off_peak = [dict(row.items()) for row in off_peak_rows]
-    return jsonify(off_peak=off_peak)
+    data = jsonify(off_peak=off_peak)
+    return data
+   
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     
     app.run(debug=True)

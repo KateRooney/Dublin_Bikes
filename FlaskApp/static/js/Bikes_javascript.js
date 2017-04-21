@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $,jQuery,google,console,x*/
+/*global $,jQuery,google,charts,console,x*/
 
 function initMap() {
         var map = new google.maps.Map(document.getElementById('map-container'),
@@ -12,7 +12,6 @@ function initMap() {
      $.getJSON("http://localhost:5000/stations", null, function (stations)
                          {
             stations = stations.stations;
-            console.log('finding stations', stations);
             for (j=0; j<stations.length; j++) {
                 createMarker(j);
             }
@@ -20,7 +19,6 @@ function initMap() {
              function createMarker(j) {
             	var station = stations[j],
             	station_number = station.number;
-            	console.log('stations',stations);
             	var marker = new google.maps.Marker({ 
             		position: {
 		                lat: station.lat,
@@ -36,7 +34,6 @@ function initMap() {
                       
                   	$.getJSON(URL, null, function (obj) {
                       var list = obj.list;
-                      console.log('list',list);
                       var output = "<table>";
                       for (var i=0; i<1; i++)
                            { var date = new Date((list[i].dt) * 1000),
@@ -45,7 +42,6 @@ function initMap() {
                               icon_show = ("<img src='http://openweathermap.org/img/w/" + icon + ".png'>"),
                               output = "<tr><td>" +date.toDateString()+icon_show+temp +"°C"+"</td></tr>";
                       			output +="</table>";
-                              console.log('weather', output);
                               };
                 
             		var bikes = station.available_bikes;
@@ -56,8 +52,7 @@ function initMap() {
             	        infoWindow = new google.maps.InfoWindow({content: contentString
             	            			});
 
-                        console.log('content string', contentString);
-                        console.log('infowindow', infoWindow);
+
 		            	infoWindow.open(map, marker);}
                		})
                		(marker, j))   
@@ -94,7 +89,7 @@ function initMap() {
                  
 		      heatmapData.push(weightedLoc);
              }
-             console.log(heatmapData);
+     
             var heatmap = new google.maps.visualization.HeatmapLayer({
               		data: heatmapData,
               		map: map 
@@ -105,6 +100,34 @@ function initMap() {
                                 
                                 });
             
+
+     google.charts.load("current", {packages:["corechart"]});
+     google.charts.setOnLoadCallback(drawChart); 
+     
+     function drawChart (){
+    	 	var forChart = $.getJSON("http://localhost:5000/peak", null,function (data) {
+    	 	var data = data.peak;
+    	 	console.log('data' ,data);
+    	 	var	table_rows = [];
+            for (var p = 0; p<data.length; p++) {
+            	var table_rows = (data[p].peak_bike_stands, data[p].peak_bikes_available)};
+            console.log('table rows', table_rows);
+        
+		    //make table schema
+		    var data = new google.visualization.DataTable();
+		    data.addColumn('number', 'peak_bike_stands');
+		    data.addColumn('number', 'peak_bikes_available');
+		    data.addRows(table_rows);
+		     
+		    console.log('tabledata', data);
+  
+		    var chart = new google.visualization.PieChart(document.getElementById('pacman'));
+		    chart.draw(data, {width: 400, height: 340});
+		    console.log('chart', chart);
+    	 	});
+    	 	}
+    	 	
+     
 //closes the map init function
 
 }
