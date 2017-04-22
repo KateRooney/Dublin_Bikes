@@ -1,12 +1,6 @@
-import simplejson as json
 from flask import Flask, g, jsonify, render_template, url_for
 from sqlalchemy import create_engine
-from sqlalchemy import Table
 import config
-import pandas as pd
-import requests
-
-
 app = Flask(__name__)
 
 #configurations for database connection, also see 'config.py' file in this folder
@@ -92,7 +86,6 @@ def get_off_peak():
     data = jsonify(off_peak=off_peak)
     return data
 
-  
 
 if __name__ == "__main__":  
     
