@@ -15,67 +15,43 @@
 	<script type="text/javascript">
   google.charts.load('current', {packages: ['corechart']});
   google.charts.setOnLoadCallback(window.drawChart);</script>
+    
     </head>
    
-    <body>
+  <body>
+  
+  <!-- All code on this page is structural, all functional code comes from javascript file links -->
    
-        <div class="container-fluid bg-1 text-center">
+        <div class="container-fluid bg-2 text-center">
     
-            <h1> Dublin Bikes Team 13</h1>
+            <h1> Dublin Bikes </h1>
 
         </div>
       
-        <div class="container-fluid bg-2 text-center">
-         
-            <div class="btn-group">  
-        
-                <div class="dropdown">
-        
-                    <button class="btn btn-info dropdown-toggle btn-lg" type="button" data-toggle="dropdown">Bike Availability
-                
-              			 <span class="caret"></span></button>
-
-                        		<ul class="dropdown-menu">
-           
-                 			 	<form>
-                  
-		                            <li class="dropdown-header">Average availability</li>
-		                  
-		                            <li><a href="PeakPage">Peak</a></li>
-		                 
-		                            <li><a href="OffPeakPage">Off-peak</a></li>
-		                  
-		                            <li class="divider"></li>
-		                  
-		                            <li class="dropdown-header">Current availability</li>
-		                  
-		                            <li><a href='main'>Now</a></li>
-		            				 </form>
-            
-                      		  </ul>
-         
-                </div>
-    
-            </div>
-
-        </div>
+       
     
         <div class="container-fluid bg-3 text-center">
     
-    
             <div id="map-container" class="col-md-6"></div>
+            
             
             	<div class="row">
             
-                	<div class="col-sm-4" id="pacman">
-                
-                    	
-            
-            		</div>
+                	<div class="col-sm-4" id="peak_chart">
+                	
+        		</div>
        
-           		 </div>
+     
+      			<div class="row">
+        
+        			<div class="col-sm-4" id="off_peak_chart">
+           		 
+           		</div>
    
-        </div>
+        	</div>
+        
+  		</div>     
+        
           
         <footer class="container-fluid bg-4 text-center">
            

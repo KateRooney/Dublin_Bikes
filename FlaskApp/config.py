@@ -1,5 +1,6 @@
-URI="project1team13.cldi9otgx37k.us-west-2.rds.amazonaws.com"
+#this is the configuration for flask to be able to connect to the database
+URI="project3.ckjtcpr4fsnl.us-west-2.rds.amazonaws.com"
 PORT="3306"
-DB = "Project1Team13"
-USER = "Project1Team13"
-PASSWORD = "Renault4"
+DB = "Bikes"
+USER = "Project3"
+PASSWORD = "Project3"

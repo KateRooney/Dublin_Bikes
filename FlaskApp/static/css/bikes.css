@@ -1,13 +1,14 @@
+/* css styling, uses bootstrap min.css*/
 
 body {
-      font: 20px Montserrat, sans-serif;
+      font: 28px Montserrat, sans-serif;
       line-height: 1.8;
       color: deepskyblue;
   }
 #map-container { height: 650px;
-    width: 60%;}
+    width: 65%;}
     
-  p {font-size: 16px;}
+  p {font-size: 28px;}
   .margin {margin-bottom: 45px;}  
          <style>
 .bg-1 { 
@@ -28,7 +29,7 @@ body {
   }
 
 .bg-4 { 
-    background-color: #2f2f2f;
+    background-color: #2f2f2f; /* Black */
     color: #ffffff;
 }
              
