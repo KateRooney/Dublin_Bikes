@@ -17,7 +17,7 @@ function initMap() {
         var markers,infoWindows,infoWindow,marker, contentString,output,bikes,station_number,
         list,temp,icon,icon_show,stations;
                          
-     $.getJSON("http://localhost:5000/stations", null, function (stations)
+        $.getJSON("http://localhost:5000/stations", null, function (stations)
                          {
             stations = stations.stations;
             for (j=0; j<stations.length; j++) {

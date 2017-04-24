@@ -1,7 +1,10 @@
 from flask import Flask, g, jsonify, render_template, url_for
 from sqlalchemy import create_engine
 import config
+from flask_cors import CORS, cross_origin
+
 app = Flask(__name__)
+CORS(app)
 
 
 #configurations for database connection, also see 'config.py' file in this folder
@@ -30,11 +33,13 @@ def close_connection(exception):
         db.close()
 
 #this creates the main index page template - our site has only one page so we have only one template
+@app.route("/")
 def main():
     return render_template('Index.html')
 
 #this generates live data per bike station in Dublin, for use in info window on map marker
 @app.route("/stations") 
+@cross_origin()
 def get_stations():
     sql = """
     SELECT available_bikes,available_bike_stands, maxDate, StationData.*
@@ -56,6 +61,7 @@ def get_stations():
 #specifically Monday through Friday 8-9am or 5-6pm 
 #for use on pie chart 
 @app.route("/peak") 
+@cross_origin()
 def get_peak(engine):
     sql = """ 
     SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS peak_bike_stands
@@ -71,6 +77,7 @@ def get_peak(engine):
 #specifically any hours that are not Monday through Friday 8-9am or 5-6pm 
 #for use on pie chart  
 @app.route("/off_peak") 
+@cross_origin()
 def get_off_peak(engine):
     sql = """ 
     SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS off_peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS off_peak_bike_stands
