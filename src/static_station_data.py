@@ -1,3 +1,11 @@
+'''
+Created on 15 Mar 2017
+
+this is runs only once, and returns the static data for the Dublin Bikes stations
+
+@author: user
+'''
+
 import requests
 import json
 from sqlalchemy import create_engine

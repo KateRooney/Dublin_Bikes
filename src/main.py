@@ -1,6 +1,8 @@
 '''
 Created on 15 Mar 2017
 
+this is the web crawler for the dynamic occupancy data for Dublin Bikes 
+
 @author: user
 '''
 import requests

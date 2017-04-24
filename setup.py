@@ -1,7 +1,9 @@
+#this initiates the python web scraper but for dynamic data only. 
+#static data was served via the static_station_data file as it was to be run just once. 
 from setuptools import setup
 
 setup(name="Bikes",
-     version ="0.3",
+     version ="0.4",
      description="Dublin Bikes Project Team 13",
      url="",
      author="Kate Rooney",

@@ -167,5 +167,6 @@ function initMap() {
  	 //closes the map init function
 }
      
-
+//references Google Developers https://developers.google.com, https://openweathermap.org, 
+//W3 schools, and lecture notes from comp30670(software engineering) and comp30680(web design)
 
