@@ -17,7 +17,7 @@ function initMap() {
         var markers,infoWindows,infoWindow,marker, contentString,output,bikes,station_number,
         list,temp,icon,icon_show,stations;
                          
-     $.getJSON("$SCRIPT_ROOT/stations", null, function (stations)
+     $.getJSON("http://localhost:5000/stations", null, function (stations)
                          {
             stations = stations.stations;
             for (j=0; j<stations.length; j++) {
@@ -76,7 +76,7 @@ function initMap() {
  		//closes the function to find the stations JSON input
  
 })  
-         var heatmap = $.getJSON($SCRIPT_ROOT+"/stations", null,function(stations) {
+         var heatmap = $.getJSON("http://localhost:5000/stations", null,function(stations) {
              //generate the table of locations (same as stations) for the heatmap
         	 var heatmapData = [];
              var stations = stations.stations;
@@ -122,7 +122,7 @@ function initMap() {
      
      function drawChart (){
     	 //peak_times_chart
-    	 	var forChart = $.getJSON($SCRIPT_ROOT+"/peak", null,function (peak) {
+    	 	var forChart = $.getJSON("http://localhost:5000/peak", null,function (peak) {
     	 	var peak = peak.peak;
     	    for (var p=0; p<1; p++)
             { var no_bikes = peak[p].peak_bikes_available,
@@ -144,7 +144,7 @@ function initMap() {
     	 	}
    
      	//off_peak_times_chart
- 	 	var forChart2 = $.getJSON($SCRIPT_ROOT+"/off_peak", null,function (off_peak) {
+ 	 	var forChart2 = $.getJSON("http://localhost:5000/off_peak", null,function (off_peak) {
  	 	var off_peak = off_peak.off_peak;
  	    for (var o=0; o<1; o++)
          { var no_bikes_o = off_peak[o].off_peak_bikes_available,
