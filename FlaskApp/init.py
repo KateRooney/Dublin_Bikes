@@ -1,9 +1,7 @@
 from flask import Flask, g, jsonify, render_template, url_for
 from sqlalchemy import create_engine
 import config
-from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-CORS(app)
 
 
 #configurations for database connection, also see 'config.py' file in this folder
@@ -22,7 +20,7 @@ def connect_to_database(config):
 def get_db():                                                                                                                                                                                                                                                       
     engine = getattr(g, 'engine', None)                                                                                                                                                                                                                              
     if engine is None:                                                                                                                                                                                                                                                  
-        engine = g.engine = self.connect_to_database()                                                                                                                                                                                                                    
+        engine = g.engine = connect_to_database()                                                                                                                                                                                                                    
     return engine                                                                                                                                                                                                                                                      
 
 @app.teardown_appcontext
@@ -32,13 +30,11 @@ def close_connection(exception):
         db.close()
 
 #this creates the main index page template - our site has only one page so we have only one template
-@app.route('/')
-def main(self):
+def main():
     return render_template('Index.html')
 
 #this generates live data per bike station in Dublin, for use in info window on map marker
 @app.route("/stations") 
-@cross_origin()
 def get_stations():
     sql = """
     SELECT available_bikes,available_bike_stands, maxDate, StationData.*
@@ -51,7 +47,7 @@ def get_stations():
     DublinBikes.maxDate
     ORDER BY DublinBikes.number;
     """
-    engine = self.get_db()
+    engine = get_db()
     avilrows = engine.execute(sql).fetchall()
     stations = [dict(row.items()) for row in avilrows]
     return jsonify(stations=stations)
@@ -60,7 +56,6 @@ def get_stations():
 #specifically Monday through Friday 8-9am or 5-6pm 
 #for use on pie chart 
 @app.route("/peak") 
-@cross_origin()
 def get_peak(engine):
     sql = """ 
     SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS peak_bike_stands
@@ -76,8 +71,7 @@ def get_peak(engine):
 #specifically any hours that are not Monday through Friday 8-9am or 5-6pm 
 #for use on pie chart  
 @app.route("/off_peak") 
-@cross_origin()
-def get_off_peak(self, engine):
+def get_off_peak(engine):
     sql = """ 
     SELECT DublinBikes.number,FLOOR(AVG(available_bikes)) AS off_peak_bikes_available, FLOOR(AVG(available_bike_stands)) AS off_peak_bike_stands
     FROM DublinBikes
